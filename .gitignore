@@ -3,11 +3,11 @@
 
 # Node
 npm-debug.log
-/node_modules
+**/node_modules
 
 # Cordova
-/platforms
-/plugins
+**/platforms
+**/plugins
 
 # res
-resources/signing
+**/resources/signing
