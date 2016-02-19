@@ -11,6 +11,9 @@
     "outDir": "www/js"
   },
   "exclude": [
-    "node_modules"
+    "www/lib",
+    "node_modules",
+    "platforms",
+    "plugins"
   ]
 }

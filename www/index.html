@@ -28,22 +28,52 @@
             * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
                 * Enable inline JS: add 'unsafe-inline' to default-src
         -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+        <meta charset="utf-8" />
+        <meta http-equiv="Content-Security-Policy" content="default-src https: 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval' 'unsafe-inline' ws://localhost:*; script-src 'self' 'unsafe-eval' 'unsafe-inline'; media-src *">
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <meta name="HandheldFriendly" content="true">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
         <link rel="stylesheet" type="text/css" href="css/index.css">
-        <title>Hello World</title>
-    </head>
-    <body>
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div>
-        </div>
+        <title>Etik-Tak</title>
+
+        <!-- 1. Load libraries -->
+        <!-- IE required polyfills, in this exact order -->
         <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
+
+        <script src="lib/es6-shim/es6-shim.min.js"></script>
+        <script src="lib/systemjs/dist/system-polyfills.js"></script>
+
+        <script src="lib/angular2/bundles/angular2-polyfills.js"></script>
+        <script src="lib/systemjs/dist/system.src.js"></script>
+        <script src="lib/rxjs/bundles/Rx.js"></script>
+        <script src="lib/angular2/bundles/angular2.dev.js"></script>
+        <script src="lib/angular2/bundles/http.dev.js"></script>
+        <script src="lib/angular2/bundles/router.dev.js"></script>
+
+        <!-- 2. Configure SystemJS -->
+        <script>
+          System.config({
+            paths: {
+                'lib/*': './lib/*'
+            },
+            packages: {
+              lib: {
+                format: 'register',
+                defaultExtension: 'js'
+              }
+            }
+          });
+          System.import('js/main')
+                .then(null, console.error.bind(console));
+        </script>
+    </head>
+
+    <body>
+        <script type="text/javascript" src="js/cordova.js"></script>
+        <p>Loading...</p>
     </body>
 </html>
