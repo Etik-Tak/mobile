@@ -6,10 +6,10 @@ npm-debug.log
 **/node_modules
 
 # Cordova
-**/platforms
+**/platforms/**
 !**/platforms/*.json
 
-**/plugins
+**/plugins/**
 !**/plugins/*.json
 
 **/.cordova
