@@ -1,18 +1,38 @@
+.idea
+
 # Mac
 .DS_Store
 
 # Node
 npm-debug.log
-**/node_modules
+logs
+*.log
+node_modules
 
 # Cordova
-**/platforms/**
-!**/platforms/*.json
+platforms/**
+!platforms/*.json
 
-**/plugins/**
-!**/plugins/*.json
+plugins/**
+!plugins/*.json
 
-**/.cordova
+.cordova
 
 # res
-**/resources/signing
+resources/signing
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+# Compiled binary addons (http://nodejs.org/api/addons.html)
+build/Release
+
+# Optional npm cache directory
+.npm
+
+# Distribution directory
+www/js
+!www/js/cordova.js
+
