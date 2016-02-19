@@ -44,22 +44,19 @@
         <!-- IE required polyfills, in this exact order -->
         <script type="text/javascript" src="cordova.js"></script>
 
-        <script src="lib/es6-shim/es6-shim.min.js"></script>
-        <script src="lib/systemjs/dist/system-polyfills.js"></script>
+        <script src="js/lib/es6-shim/es6-shim.min.js"></script>
+        <script src="js/lib/systemjs/dist/system-polyfills.js"></script>
 
-        <script src="lib/angular2/bundles/angular2-polyfills.js"></script>
-        <script src="lib/systemjs/dist/system.src.js"></script>
-        <script src="lib/rxjs/bundles/Rx.js"></script>
-        <script src="lib/angular2/bundles/angular2.dev.js"></script>
-        <script src="lib/angular2/bundles/http.dev.js"></script>
-        <script src="lib/angular2/bundles/router.dev.js"></script>
+        <script src="js/lib/angular2/bundles/angular2-polyfills.js"></script>
+        <script src="js/lib/systemjs/dist/system.src.js"></script>
+        <script src="js/lib/rxjs/bundles/Rx.js"></script>
+        <script src="js/lib/angular2/bundles/angular2.dev.js"></script>
+        <script src="js/lib/angular2/bundles/http.dev.js"></script>
+        <script src="js/lib/angular2/bundles/router.dev.js"></script>
 
         <!-- 2. Configure SystemJS -->
         <script>
           System.config({
-            paths: {
-                'lib/*': './lib/*'
-            },
             packages: {
               lib: {
                 format: 'register',
@@ -67,7 +64,7 @@
               }
             }
           });
-          System.import('js/main')
+          System.import('www/js/main')
                 .then(null, console.error.bind(console));
         </script>
     </head>
