@@ -7,7 +7,12 @@ npm-debug.log
 
 # Cordova
 **/platforms
+!**/platforms/*.json
+
 **/plugins
+!**/plugins/*.json
+
+**/.cordova
 
 # res
 **/resources/signing
