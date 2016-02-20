@@ -58,19 +58,18 @@
         <script>
           System.config({
             packages: {
-              lib: {
+              js: {
                 format: 'register',
                 defaultExtension: 'js'
               }
             }
           });
-          System.import('www/js/main')
+          System.import('js/dist/main')
                 .then(null, console.error.bind(console));
         </script>
     </head>
 
     <body>
-        <script type="text/javascript" src="js/cordova.js"></script>
         <p>Loading...</p>
     </body>
 </html>

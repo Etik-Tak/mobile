@@ -8,10 +8,11 @@
     "experimentalDecorators": true,
     "removeComments": false,
     "noImplicitAny": true,
-    "outDir": "www/js"
+    "outDir": "www/js/dist"
   },
   "exclude": [
-    "www/lib",
+    "www/js/lib",
+    "www/js/dist",
     "node_modules",
     "platforms",
     "plugins"
