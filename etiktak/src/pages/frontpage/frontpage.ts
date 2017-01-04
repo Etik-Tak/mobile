@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { ScanProductPage } from '../scan-product/scan-product';
+import { SearchPage } from '../search/search';
 
 @Component({
   selector: 'page-frontpage',
@@ -7,6 +9,9 @@ import { NavController } from 'ionic-angular';
 })
 export class FrontpagePage {
 
+  scanProductPage = ScanProductPage;
+  searchPage = SearchPage;
+  
   constructor(public navCtrl: NavController) {}
 
   ionViewDidLoad() {

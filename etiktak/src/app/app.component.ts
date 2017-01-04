@@ -4,6 +4,8 @@ import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { StartupPage } from '../pages/startup/startup';
 import { FrontpagePage } from '../pages/frontpage/frontpage';
+import { ScanProductPage } from '../pages/scan-product/scan-product';
+import { SearchPage } from '../pages/search/search';
 
 @Component({
   templateUrl: 'app.html'
@@ -19,7 +21,9 @@ export class MyApp {
     this.initializeApp();
 
     this.pages = [
-      { title: 'Forside', component: FrontpagePage }
+      { title: 'Forside', component: FrontpagePage },
+      { title: 'Scan stregkode', component: ScanProductPage },
+      { title: 'Søg', component: SearchPage }
     ];
 
   }

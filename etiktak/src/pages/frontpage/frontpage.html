@@ -12,4 +12,26 @@
 
 <ion-content padding>
 
+  <div class="button-list">
+
+    <button ion-button large [navPush]="scanProductPage">
+      <div>
+        <ion-icon name="barcode" item-left></ion-icon>
+        <br />
+        <label>Scan stregkode</label>
+      </div>
+    </button>
+
+    <br/>
+
+    <button ion-button large [navPush]="searchPage">
+      <div>
+        <ion-icon name="search" item-left></ion-icon>
+        <br />
+        <label>Søg vare</label>
+      </div>
+    </button>
+
+  </div>
+
 </ion-content>

@@ -5,12 +5,16 @@ import { MyApp } from './app.component';
 import { AuthService } from '../providers/auth-service';
 import { StartupPage } from '../pages/startup/startup';
 import { FrontpagePage } from '../pages/frontpage/frontpage';
+import { ScanProductPage } from '../pages/scan-product/scan-product';
+import { SearchPage } from '../pages/search/search';
 
 @NgModule({
   declarations: [
     MyApp,
     StartupPage,
-    FrontpagePage
+    FrontpagePage,
+    ScanProductPage,
+    SearchPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -19,7 +23,9 @@ import { FrontpagePage } from '../pages/frontpage/frontpage';
   entryComponents: [
     MyApp,
     StartupPage,
-    FrontpagePage
+    FrontpagePage,
+    ScanProductPage,
+    SearchPage
   ],
   providers: [AuthService]
 })
