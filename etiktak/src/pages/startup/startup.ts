@@ -20,19 +20,23 @@ export class StartupPage {
 
     this.platform.ready().then(() => {
 
-      // Check if we have a device ID
-      this.authService.hasDeviceId().subscribe(hasDeviceId => {
+      // Initialize device
+      this.authService.initialize().subscribe(
+        () => {
 
-        // Redirect to front page
-        if (hasDeviceId) {
-          this.showFrontPage();
-        }
+          // Redirect to front page if device already exists
+          if (this.authService.device != null) {
+            this.showFrontPage();
+          }
 
-        // Create new device
-        else {
-          this.requestDeviceId();
+          // Create new device
+          else {
+            this.requestDeviceId();
+          }
+        },
+        error => {
         }
-      })
+      );
     });
   }
 

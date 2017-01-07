@@ -1,3 +1,3 @@
 export class Constants {
-  public static apiUrl = 'http://10.192.86.251:5001/service';
+  public static apiUrl = 'http://10.0.1.4:5001/service';
 }

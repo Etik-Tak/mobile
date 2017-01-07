@@ -4,6 +4,7 @@ import { MyApp } from './app.component';
 
 import { AuthService } from '../providers/auth-service';
 import { ScanService } from '../providers/scan-service';
+import { AuthorizedHttp } from "../util/authorized-http";
 import { StartupPage } from '../pages/startup/startup';
 import { FrontpagePage } from '../pages/frontpage/frontpage';
 import { ScanProductPage } from '../pages/scan-product/scan-product';
@@ -28,6 +29,6 @@ import { SearchPage } from '../pages/search/search';
     ScanProductPage,
     SearchPage
   ],
-  providers: [AuthService, ScanService]
+  providers: [AuthService, ScanService, AuthorizedHttp]
 })
 export class AppModule {}

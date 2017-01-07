@@ -8,88 +8,56 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class AuthService {
-  private currentDevice: Device = null;
+
+  public device: Device = null;
+
   private deviceStorage: SecureStorage = null;
 
   constructor(public http: Http) {
   }
 
-  public hasDeviceId() : Observable<boolean> {
+  public initialize() : Observable<void> {
     return Observable.create(observer => {
-      this.getDevice().subscribe(device => {
-        observer.next(device != null);
-        observer.complete();
+      this.getDeviceStorage().subscribe(storage => {
+        storage.get('device').then(
+          data => {
+            console.log("Initialized device storage");
+            this.device = JSON.parse(data);
+            observer.next();
+            observer.complete();
+          },
+          error => {
+            console.log("Error initializing device storage: " + error);
+            observer.error();
+            observer.complete();
+          }
+        );
       });
     });
   }
 
-  public getDeviceStorage() : Observable<SecureStorage> {
+  private getDeviceStorage() : Observable<SecureStorage> {
     return Observable.create(observer => {
-
-      // Already created device storage
-      if (this.deviceStorage != null) {
-        observer.next(this.deviceStorage);
-        observer.complete();
-      }
-
-      // Create device storage
-      else {
-        this.deviceStorage = new SecureStorage();
-        this.deviceStorage.create('device_storage')
-          .then(
-            () => {
-              observer.next(this.deviceStorage);
-              observer.complete();
-            },
-            error => console.log(error)
-          );
-        }
-    });
-  }
-
-  public getDevice() : Observable<Device> {
-    return Observable.create(observer => {
-
-      // Already fetched device from storage
-      if (this.currentDevice != null) {
-        observer.next(this.currentDevice);
-        observer.complete();
-      }
-
-      // Fetch device from storage
-      else {
-        this.getDeviceStorage().subscribe(storage => {
-          storage.get('device')
-            .then(
-              data => {
-                this.currentDevice = JSON.parse(data);
-                observer.next(this.currentDevice);
-                observer.complete();
-              },
-              error => {
-                observer.next(null);
-                observer.complete();
-              }
-            );
-        });
-      }
+      this.deviceStorage = new SecureStorage();
+      this.deviceStorage.create('device_storage').then(
+        () => {
+          observer.next(this.deviceStorage);
+          observer.complete();
+        },
+        error => console.log(error)
+      );
     });
   }
 
   public createDevice(deviceId: string) : Observable<Device> {
     return Observable.create(observer => {
-      this.getDeviceStorage().subscribe(storage => {
-        storage.set('device', `{"id": "${deviceId}"}`)
-          .then(
-            data => {
-              this.getDevice().subscribe(device => {
-                observer.next(this.currentDevice);
-                observer.complete();
-              });
-            },
-            error => console.log(error)
-          );
-      });
+      this.deviceStorage.set('device', `{"id": "${deviceId}"}`).then(
+        data => {
+          this.device = JSON.parse(data);
+          observer.next(true);
+          observer.complete();
+        }
+      );
     });
   }
 
