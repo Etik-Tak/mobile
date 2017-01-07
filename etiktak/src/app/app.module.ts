@@ -3,6 +3,7 @@ import { IonicApp, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 
 import { AuthService } from '../providers/auth-service';
+import { ScanService } from '../providers/scan-service';
 import { StartupPage } from '../pages/startup/startup';
 import { FrontpagePage } from '../pages/frontpage/frontpage';
 import { ScanProductPage } from '../pages/scan-product/scan-product';
@@ -27,6 +28,6 @@ import { SearchPage } from '../pages/search/search';
     ScanProductPage,
     SearchPage
   ],
-  providers: [AuthService]
+  providers: [AuthService, ScanService]
 })
 export class AppModule {}

@@ -1,20 +1,15 @@
 import { SecureStorage } from 'ionic-native';
 import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import { Http } from '@angular/http';
+import { Device } from '../model/device';
+import { Constants } from '../util/constants';
 import 'rxjs/add/operator/map';
-
-export class Device {
-  constructor(
-    public id: string
-  ) {}
-}
 
 @Injectable()
 export class AuthService {
   private currentDevice: Device = null;
   private deviceStorage: SecureStorage = null;
-  private apiUrl = 'http://10.192.84.11:5001/service';
 
   constructor(public http: Http) {
   }
@@ -100,7 +95,7 @@ export class AuthService {
 
   public requestDeviceId() : Observable<string> {
     return Observable.create(observer => {
-      this.http.post(`${this.apiUrl}/client/create/`, {})
+      this.http.post(`${Constants.apiUrl}/client/create/`, {})
         .subscribe(result => {
           console.log("Got result from server: " + result);
           let json = result.json();
