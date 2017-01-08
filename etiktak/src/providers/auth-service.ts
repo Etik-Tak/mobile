@@ -53,7 +53,7 @@ export class AuthService {
     return Observable.create(observer => {
       this.deviceStorage.set('device', `{"id": "${deviceId}"}`).then(
         data => {
-          this.device = JSON.parse(data);
+          this.device = new Device(deviceId);
           observer.next(true);
           observer.complete();
         }
