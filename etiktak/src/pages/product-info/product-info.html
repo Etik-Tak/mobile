@@ -1,0 +1,54 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Info om vare</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-card>
+    <ion-card-header>
+      Produkt
+    </ion-card-header>
+    <ion-card-content>
+
+      <ion-list>
+
+        <ion-item>
+          <ion-label floating>{{product?.name || "Ukendt produkt"}}</ion-label>
+          <ion-input type="text" #nameInput></ion-input>
+        </ion-item>
+
+      </ion-list>
+
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngFor="let company of product?.companies">
+    <ion-card-header>
+      {{ company.name }}
+    </ion-card-header>
+    <ion-card-content>
+
+      <ion-list>
+
+        <ion-item>
+          <ion-label>Test</ion-label>
+        </ion-item>
+
+      </ion-list>
+
+    </ion-card-content>
+  </ion-card>
+
+  <ion-fab right bottom>
+    <button ion-fab (click)='editProduct();'><ion-icon name="ios-checkmark-circle"></ion-icon></button>
+  </ion-fab>
+
+</ion-content>

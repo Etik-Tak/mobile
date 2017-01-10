@@ -23,71 +23,70 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import { Component } from '@angular/core';
-import { Platform, NavController, LoadingController } from 'ionic-angular';
-import { AuthHolder } from '../../providers/auth-holder';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, ViewController, LoadingController, TextInput } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service';
-import { FrontpagePage } from '../frontpage/frontpage';
-import { Util } from '../../util/util';
 
 @Component({
-  selector: 'page-startup',
-  templateUrl: 'startup.html'
+  selector: 'page-client-verification',
+  templateUrl: 'client-verification.html'
 })
-export class StartupPage {
+export class ClientVerificationPage {
 
-  welcomeStartTime = null;
   loading = null;
+  smsVerification = null;
 
-  constructor(public platform: Platform, public navCtrl: NavController, private loadingCtrl: LoadingController, private authHolder: AuthHolder, private authService: AuthService) {}
+  @ViewChild('mobileNumberInput') mobileNumberInput: TextInput;
+  @ViewChild('smsCodeInput') smsCodeInput: TextInput;
+
+  constructor(public navCtrl: NavController, public viewController: ViewController, private loadingCtrl: LoadingController, private authService: AuthService) {}
 
   ionViewDidLoad() {
-    console.log('Hello Startup Page');
-
-    this.platform.ready().then(() => {
-
-      // Initialize device
-      this.authHolder.initialize().subscribe(
-        () => {
-          // Redirect to front page if device already exists
-          this.showFrontPage();
-        },
-        error => {
-          // Create new device
-          this.createDevice();
-        }
-      );
-    });
+    console.log('Hello ClientVerification Page');
   }
 
-  private createDevice() {
-    this.showWelcome();
+  requestSmsVerification() {
+    this.showMessage('Sender SMS...');
 
-    this.authService.createDevice().subscribe(() => {
-      console.log("Created device with ID: " + this.authHolder.device.id);
-      this.showFrontPage();
-    });
+    this.authService.requestVerification(this.mobileNumberInput.value).subscribe(
+      smsVerification => {
+        this.smsVerification = smsVerification;
+        this.hideMessage();
+      },
+      error => {
+        this.hideMessage();
+      }
+    );
   }
 
-  private showFrontPage() {
-    if (this.loading != null) {
-      let maxWaitTime = 3.0;
-      setTimeout(() => {
-        this.loading.dismiss();
-        this.loading = null;
-        this.navCtrl.setRoot(FrontpagePage);
-      }, Math.max(0, maxWaitTime - (Util.currentTime() - this.welcomeStartTime)) * 1000.0);
-    } else {
-      this.navCtrl.setRoot(FrontpagePage);
-    }
+  verifySmsVerification() {
+    this.showMessage('Verificerer SMS...');
+
+    this.authService.verifyVerification(this.mobileNumberInput.value, this.smsCodeInput.value, this.smsVerification.challenge).subscribe(
+      () => {
+        this.hideMessage();
+        this.viewController.dismiss({success: true});
+      },
+      error => {
+        this.hideMessage();
+        this.viewController.dismiss({success: false});
+      }
+    );
   }
 
-  private showWelcome() {
-    this.welcomeStartTime = Util.currentTime();
-
+  private showMessage(message: string) {
+    this.hideMessage();
     this.loading = this.loadingCtrl.create({
-      content: 'Velkommen til Etik-Tak...'
+      content: message
     });
     this.loading.present();
   }
+
+  private hideMessage() {
+    if (this.loading != null) {
+      this.loading.dismiss();
+      this.loading = null;
+    }
+  }
+
 }

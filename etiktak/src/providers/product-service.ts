@@ -23,12 +23,50 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import { EditableItem} from './editable-item';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { AuthorizedHttp } from '../util/authorized-http';
+import { Constants } from '../util/constants';
+import { Product } from '../model/product';
+import 'rxjs/add/operator/map';
 
-export class Company {
-  constructor (
-    public uuid: string,
-    public name: string,
-    public editableItems: EditableItem[]
-  ) {}
+@Injectable()
+export class ProductService {
+
+  constructor(public http: AuthorizedHttp) {}
+
+  public scanProduct(barcode: string, barcodeType: string) : Observable<Object> {
+    return Observable.create(observer => {
+      this.http.post(`${Constants.apiUrl}/product/scan/`, {'barcode': barcode, 'barcodeType': barcodeType}, {}).subscribe(
+        result => {
+          console.log("Result from server: " + result);
+          let json = result.json();
+          let product = <Product>json["scan"]["product"];
+          observer.next(product);
+          observer.complete();
+        },
+        error => {
+          console.log("Error: " + error);
+        }
+      )
+    });
+  }
+
+  public editProduct(product: Product, name: string) : Observable<Product> {
+    return Observable.create(observer => {
+      this.http.post(`${Constants.apiUrl}/product/edit/`, {'productUuid': product.uuid,'name': name}, {}).subscribe(
+        result => {
+          console.log("Result from server: " + result);
+          let json = result.json();
+          let product = <Product>json["product"];
+          observer.next(product);
+          observer.complete();
+        },
+        error => {
+          console.log("Error: " + error);
+        }
+      )
+    });
+  }
+
 }

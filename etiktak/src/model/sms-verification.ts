@@ -23,12 +23,9 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import { EditableItem} from './editable-item';
-
-export class Company {
-  constructor (
-    public uuid: string,
-    public name: string,
-    public editableItems: EditableItem[]
+export class SmsVerification {
+  constructor(
+    public challenge: string,
+    public status: string
   ) {}
 }

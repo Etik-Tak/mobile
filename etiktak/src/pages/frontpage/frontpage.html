@@ -14,7 +14,7 @@
 
   <div class="button-list">
 
-    <button ion-button large [navPush]="scanProductPage">
+    <button ion-button large (click)="this.showScanProductPage()">
       <div>
         <ion-icon name="barcode" item-left></ion-icon>
         <br />
@@ -24,7 +24,7 @@
 
     <br/>
 
-    <button ion-button large [navPush]="searchPage">
+    <button ion-button large (click)="this.showSearchPage()">
       <div>
         <ion-icon name="search" item-left></ion-icon>
         <br />
