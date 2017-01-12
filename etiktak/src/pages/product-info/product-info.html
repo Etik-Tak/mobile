@@ -12,6 +12,7 @@
 
 <ion-content padding>
 
+  <!-- Product -->
   <ion-card>
     <ion-card-header>
       Produkt
@@ -22,7 +23,7 @@
 
         <ion-item>
           <ion-label floating>{{product?.name || "Ukendt produkt"}}</ion-label>
-          <ion-input type="text" #nameInput></ion-input>
+          <ion-input type="text" #productNameInput></ion-input>
         </ion-item>
 
       </ion-list>
@@ -30,19 +31,23 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card *ngFor="let company of product?.companies">
+  <!-- Companies -->
+  <ion-card>
     <ion-card-header>
-      {{ company.name }}
+      Producent
     </ion-card-header>
     <ion-card-content>
 
-      <ion-list>
+      <ion-list *ngFor="let company of product?.companies">
 
         <ion-item>
-          <ion-label>Test</ion-label>
+          <ion-label floating>{{company.name || "Ukendt producent"}}</ion-label>
+          <ion-input type="text"></ion-input>
         </ion-item>
 
       </ion-list>
+
+      <button (click)='addCompany();'>Tilføj producent</button>
 
     </ion-card-content>
   </ion-card>

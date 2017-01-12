@@ -39,7 +39,7 @@ export class ProductInfoPage {
   loading = null;
   product: Product;
 
-  @ViewChild('nameInput') nameInput: TextInput;
+  @ViewChild('productNameInput') productNameInput: TextInput;
 
   constructor(
     public navCtrl: NavController, private navParams: NavParams, private modalCtrl: ModalController, private loadingCtrl: LoadingController,
@@ -52,27 +52,41 @@ export class ProductInfoPage {
   }
 
   editProduct() {
+    this.verifyClient(() => {
+      this.showMessage('Gemmer produktinfo...');
+      this.productService.editProduct(this.product, this.productNameInput.value).subscribe(
+        product => {
+          this.hideMessage();
+          this.product = product;
+        }
+      );
+    });
+  }
+
+  addCompany() {
+    this.verifyClient(() => {
+      this.showMessage('Tilføjer producent...');
+      /*this.productService.editProduct(this.product, this.productNameInput.value).subscribe(
+        product => {
+          this.hideMessage();
+          this.product = product;
+        }
+      );*/
+    });
+  }
+
+  private verifyClient(callback: () => void) {
     if (this.authHolder.client.verified) {
-      this.doEditProduct();
+      callback();
     } else {
       let modal = this.modalCtrl.create(ClientVerificationPage, {});
       modal.onDidDismiss(data => {
         if (data["success"] == true) {
-          this.doEditProduct();
+          callback();
         }
       });
       modal.present();
     }
-  }
-
-  private doEditProduct() {
-    this.showMessage('Gemmer produktinfo...');
-    this.productService.editProduct(this.product, this.nameInput.value).subscribe(
-      product => {
-        this.hideMessage();
-        this.product = product;
-      }
-    );
   }
 
   private showMessage(message: string) {
