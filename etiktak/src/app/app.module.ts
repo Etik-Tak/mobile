@@ -37,6 +37,7 @@ import { FrontpagePage } from '../pages/frontpage/frontpage';
 import { ScanProductPage } from '../pages/scan-product/scan-product';
 import { SearchPage } from '../pages/search/search';
 import { ProductInfoPage } from '../pages/product-info/product-info';
+import { AddCompanyToProductPage } from '../pages/add-company-to-product/add-company-to-product';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { ProductInfoPage } from '../pages/product-info/product-info';
     FrontpagePage,
     ScanProductPage,
     SearchPage,
-    ProductInfoPage
+    ProductInfoPage,
+    AddCompanyToProductPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -59,7 +61,8 @@ import { ProductInfoPage } from '../pages/product-info/product-info';
     FrontpagePage,
     ScanProductPage,
     SearchPage,
-    ProductInfoPage
+    ProductInfoPage,
+    AddCompanyToProductPage
   ],
   providers: [AuthHolder, AuthService, ProductService, AuthorizedHttp]
 })

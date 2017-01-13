@@ -65,13 +65,17 @@ export class ClientVerificationPage {
     this.authService.verifyVerification(this.mobileNumberInput.value, this.smsCodeInput.value, this.smsVerification.challenge).subscribe(
       () => {
         this.hideMessage();
-        this.viewController.dismiss({success: true});
+        this.close(true);
       },
       error => {
         this.hideMessage();
-        this.viewController.dismiss({success: false});
+        this.close(false);
       }
     );
+  }
+
+  close(success: boolean) {
+    this.viewController.dismiss({success: success});
   }
 
   private showMessage(message: string) {

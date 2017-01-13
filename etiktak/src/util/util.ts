@@ -38,4 +38,13 @@ export class Util {
       }
       return completeUrl;
     }
+
+    static getArrayItemWithKey(array: any[], key: string, value: string) : any {
+      for (let item of array) {
+        if (item["key"] == value) {
+          return item;
+        }
+      }
+      return null;
+    }
 }

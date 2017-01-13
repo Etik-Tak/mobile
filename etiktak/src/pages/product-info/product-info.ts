@@ -29,6 +29,8 @@ import { ClientVerificationPage } from '../client-verification/client-verificati
 import { AuthHolder } from "../../providers/auth-holder";
 import { ProductService } from "../../providers/product-service";
 import { Product } from "../../model/product";
+import { EditableItem } from "../../model/editable-item";
+import { Util } from "../../util/util";
 
 @Component({
   selector: 'page-product-info',
@@ -36,8 +38,9 @@ import { Product } from "../../model/product";
 })
 export class ProductInfoPage {
 
-  loading = null;
-  product: Product;
+  loading = undefined;
+  product: Product = undefined;
+  editingProductName = false;
 
   @ViewChild('productNameInput') productNameInput: TextInput;
 
@@ -51,16 +54,40 @@ export class ProductInfoPage {
     console.log('Hello ProductInfo Page');
   }
 
-  editProduct() {
+  productName() : string {
+    return (this.product && this.product.name) ? this.product.name : "Ukendt produkt";
+  }
+
+  editProductName() {
+    this.editingProductName = true;
+  }
+
+  saveProduct() {
     this.verifyClient(() => {
       this.showMessage('Gemmer produktinfo...');
       this.productService.editProduct(this.product, this.productNameInput.value).subscribe(
         product => {
           this.hideMessage();
           this.product = product;
+          this.editingProductName = false;
         }
       );
     });
+  }
+
+  canEditProductName() : boolean {
+    if (this.product == null) {
+      return false;
+    }
+    return (<EditableItem>Util.getArrayItemWithKey(this.product.editableItems, "key", "name")).editable;
+  }
+
+  isProductNameEdited() : boolean {
+    return this.productNameInput != null && this.productNameInput.value != "";
+  }
+
+  isEditingProductName() : boolean {
+    return this.editingProductName;
   }
 
   addCompany() {

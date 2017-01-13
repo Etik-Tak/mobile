@@ -1,7 +1,10 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>clientVerification</ion-title>
+    <button ion-button clear small (click)='close(false);'>
+      <ion-icon name="close"></ion-icon>
+    </button>
+    <ion-title>SMS verifikation</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -13,19 +16,19 @@
 
     <ion-item>
       <ion-label floating>Mobil-nummer</ion-label>
-      <ion-input type="text" [disabled]="this.smsVerification != null" #mobileNumberInput></ion-input>
+      <ion-input type="text" [disabled]="smsVerification != null" #mobileNumberInput></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label floating>SMS kode</ion-label>
-      <ion-input type="text" [disabled]="this.smsVerification == null" #smsCodeInput></ion-input>
+      <ion-input type="text" [disabled]="smsVerification == null" #smsCodeInput></ion-input>
     </ion-item>
 
   </ion-list>
 
   <div padding>
-    <button block *ngIf="this.smsVerification == null" (click)='requestSmsVerification();' #sendSmsButton>Send SMS</button>
-    <button block *ngIf="this.smsVerification != null" (click)='verifySmsVerification();' #verifySmsButton>Verificér</button>
+    <button block *ngIf="smsVerification == null" (click)='requestSmsVerification();' #sendSmsButton>Send SMS</button>
+    <button block *ngIf="smsVerification != null" (click)='verifySmsVerification();' #verifySmsButton>Verificér</button>
   </div>
 
 </ion-content>
