@@ -23,6 +23,9 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+import { EditableItem } from "../model/editable-item";
+import { Client } from "../model/client";
+
 export class Util {
     static currentTime() {
       return new Date().getTime() / 1000.0;
@@ -47,4 +50,21 @@ export class Util {
       }
       return null;
     }
+
+    static canEditItemWithKey(itemKey: string, editableItems: EditableItem[]) : boolean {
+      return Util.canEditItem(<EditableItem>Util.getArrayItemWithKey(editableItems, "key", itemKey))
+    }
+
+    static canEditItem(editableItem: EditableItem) : boolean {
+      return editableItem.editable;
+    }
+
+    static canEditItemWithKeyIfVerified(itemKey: string, editableItems: EditableItem[], client: Client) : boolean {
+      return Util.canEditItemIfVerified(<EditableItem>Util.getArrayItemWithKey(editableItems, "key", itemKey), client)
+    }
+
+    static canEditItemIfVerified(editableItem: EditableItem, client: Client) : boolean {
+      return client.trustLevel >= editableItem.trustScore;
+    }
+
 }

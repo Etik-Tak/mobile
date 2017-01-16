@@ -38,12 +38,12 @@
             <ion-icon name="thumbs-down"></ion-icon>
           </button>
         </ion-col>
-        <ion-col *ngIf="canEditProductName() && !isProductNameEdited()">
+        <ion-col *ngIf="canEditProductName() && !isEditingProductName()">
           <button ion-button clear small (click)="editProductName()">
             <div>Redigér</div>
           </button>
         </ion-col>
-        <ion-col *ngIf="isProductNameEdited()">
+        <ion-col *ngIf="isEditingProductName()">
           <button ion-button clear small (click)="saveProduct()">
             <div>Gem</div>
           </button>

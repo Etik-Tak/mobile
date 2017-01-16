@@ -79,7 +79,7 @@ export class ProductInfoPage {
     if (this.product == null) {
       return false;
     }
-    return (<EditableItem>Util.getArrayItemWithKey(this.product.editableItems, "key", "name")).editable;
+    return Util.canEditItemWithKeyIfVerified("name", this.product.editableItems, this.authHolder.client);
   }
 
   isProductNameEdited() : boolean {
