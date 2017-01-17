@@ -26,10 +26,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, ModalController, LoadingController, TextInput } from 'ionic-angular';
 import { ClientVerificationPage } from '../client-verification/client-verification';
+import { AddCompanyToProductPage } from '../add-company-to-product/add-company-to-product';
 import { AuthHolder } from "../../providers/auth-holder";
 import { ProductService } from "../../providers/product-service";
 import { Product } from "../../model/product";
-import { EditableItem } from "../../model/editable-item";
 import { Util } from "../../util/util";
 
 @Component({
@@ -60,9 +60,20 @@ export class ProductInfoPage {
 
   editProductName() {
     this.editingProductName = true;
+    setTimeout(() => {
+      this.productNameInput.setFocus();
+    }, 500);
+  }
+
+  cancelEditingProductName() {
+    this.editingProductName = false;
   }
 
   saveProduct() {
+    if (this.productNameInput.value == "") {
+      this.cancelEditingProductName();
+      return;
+    }
     this.verifyClient(() => {
       this.showMessage('Gemmer produktinfo...');
       this.productService.editProduct(this.product, this.productNameInput.value).subscribe(
@@ -90,7 +101,17 @@ export class ProductInfoPage {
     return this.editingProductName;
   }
 
-  addCompany() {
+  showAddCompanyPage() {
+    let modal = this.modalCtrl.create(AddCompanyToProductPage, {});
+    modal.onDidDismiss(data => {
+      if (data["success"] == true) {
+        this.addCompany(data["companyName"]);
+      }
+    });
+    modal.present();
+  }
+
+  addCompany(companyName: string) {
     this.verifyClient(() => {
       this.showMessage('Tilføjer producent...');
       /*this.productService.editProduct(this.product, this.productNameInput.value).subscribe(

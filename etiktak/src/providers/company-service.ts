@@ -23,50 +23,35 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import { Component } from '@angular/core';
-import { NavController, ViewController } from 'ionic-angular';
-import { CompanyService } from "../../providers/company-service";
-import { Company } from "../../model/company";
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { AuthorizedHttp } from '../util/authorized-http';
+import { Constants } from '../util/constants';
+import { Company } from '../model/company';
+import 'rxjs/add/operator/map';
 
-@Component({
-  selector: 'page-add-company-to-product',
-  templateUrl: 'add-company-to-product.html'
-})
-export class AddCompanyToProductPage {
+@Injectable()
+export class CompanyService {
 
-  constructor(public navCtrl: NavController, public viewController: ViewController, private companyService: CompanyService) {}
+  constructor(public http: AuthorizedHttp) {}
 
-  companies: Company[]
-  searchString = ""
-
-  ionViewDidLoad() {
-    console.log('Hello AddCompanyToProduct Page');
+  public searchCompanies(searchString: string) : Observable<Company[]> {
+    return Observable.create(observer => {
+      this.http.get(`${Constants.apiUrl}/company/search/`, {'searchString': searchString}).subscribe(
+        result => {
+          console.log("Result from server: " + result);
+          let json = result.json();
+          let companies = <Company[]>json["companies"];
+          observer.next(companies);
+          observer.complete();
+        },
+        error => {
+          console.log("Error: " + error);
+          observer.error(error);
+          observer.complete();
+        }
+      )
+    });
   }
-
-  search(searchEvent) {
-
-      // Set val to the value of the searchbar
-      this.searchString = searchEvent.target.value;
-
-      if (this.searchString.trim() !== '' && this.searchString.trim().length >= 3) {
-        this.companyService.searchCompanies(this.searchString).subscribe(companies => {
-          this.companies = companies;
-        });
-      } else {
-        this.companies = [];
-      }
-    }
-
-    cancel() {
-      this.viewController.dismiss({success: false});
-    }
-
-    okPressed() {
-      this.close(this.searchString);
-    }
-
-    close(companyName: string) {
-      this.viewController.dismiss({success: true, companyName: companyName});
-    }
 
 }

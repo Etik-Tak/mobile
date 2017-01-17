@@ -41,15 +41,14 @@ export class AuthorizedHttp {
   }
 
   public get(url: string, params: {[index: string]: any}) : Observable<Response> {
-    return Observable.create(observer => {
-      return this.http.get(Util.buildUrl(url, params), {
-        headers: this.createAuthorizationHeader()
-      });
+    console.log("GET: " + Util.buildUrl(url, params));
+    return this.http.get(Util.buildUrl(url, params), {
+      headers: this.createAuthorizationHeader()
     });
   }
 
   public post(url: string, params: {[index: string]: any}, data) : Observable<Response> {
-    console.log("POSTING to: " + Util.buildUrl(url, params));
+    console.log("POST: " + Util.buildUrl(url, params));
     return this.http.post(Util.buildUrl(url, params), data, {
       headers: this.createAuthorizationHeader()
     });

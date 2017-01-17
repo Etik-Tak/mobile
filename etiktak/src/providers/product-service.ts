@@ -35,7 +35,7 @@ export class ProductService {
 
   constructor(public http: AuthorizedHttp) {}
 
-  public scanProduct(barcode: string, barcodeType: string) : Observable<Object> {
+  public scanProduct(barcode: string, barcodeType: string) : Observable<Product> {
     return Observable.create(observer => {
       this.http.post(`${Constants.apiUrl}/product/scan/`, {'barcode': barcode, 'barcodeType': barcodeType}, {}).subscribe(
         result => {
@@ -47,6 +47,8 @@ export class ProductService {
         },
         error => {
           console.log("Error: " + error);
+          observer.error(error);
+          observer.complete();
         }
       )
     });
@@ -64,6 +66,8 @@ export class ProductService {
         },
         error => {
           console.log("Error: " + error);
+          observer.error(error);
+          observer.complete();
         }
       )
     });

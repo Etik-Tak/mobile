@@ -30,6 +30,7 @@ import { MyApp } from './app.component';
 import { AuthHolder } from '../providers/auth-holder';
 import { AuthService } from '../providers/auth-service';
 import { ProductService } from '../providers/product-service';
+import { CompanyService } from "../providers/company-service";
 import { AuthorizedHttp } from "../util/authorized-http";
 import { ClientVerificationPage } from '../pages/client-verification/client-verification';
 import { StartupPage } from '../pages/startup/startup';
@@ -64,6 +65,6 @@ import { AddCompanyToProductPage } from '../pages/add-company-to-product/add-com
     ProductInfoPage,
     AddCompanyToProductPage
   ],
-  providers: [AuthHolder, AuthService, ProductService, AuthorizedHttp]
+  providers: [AuthHolder, AuthService, ProductService, CompanyService, AuthorizedHttp]
 })
 export class AppModule {}
