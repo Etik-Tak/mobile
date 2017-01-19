@@ -23,19 +23,19 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import { SecureStorage } from 'ionic-native';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Device } from '../model/device';
-import { Client } from '../model/client';
+import { SecureStorage } from 'ionic-native'
+import { Injectable } from '@angular/core'
+import { Observable } from 'rxjs/Observable'
+import { Device } from '../model/device'
+import { Client } from '../model/client'
 
 @Injectable()
 export class AuthHolder {
 
-  public device: Device = null;
-  public client: Client = null;
+  public device: Device = null
+  public client: Client = null
 
-  private deviceStorage: SecureStorage = null;
+  private deviceStorage: SecureStorage = null
 
   public initialize() : Observable<void> {
     return Observable.create(observer => {
@@ -44,77 +44,77 @@ export class AuthHolder {
         // Fetch device
         storage.get('device').then(
           data => {
-            this.device = JSON.parse(data);
+            this.device = JSON.parse(data)
 
             // Fetch client
             storage.get('client').then(
               data => {
-                this.client = JSON.parse(data);
+                this.client = JSON.parse(data)
 
-                console.log("Initialized storage");
-                observer.next();
-                observer.complete();
+                console.log("Initialized storage")
+                observer.next()
+                observer.complete()
               },
               error => {
-                console.log("Error initializing client from storage: " + error);
-                observer.error();
-                observer.complete();
+                console.log("Error initializing client from storage: " + error)
+                observer.error()
+                observer.complete()
               }
-            );
+            )
           },
           error => {
-            console.log("Error initializing device from storage: " + error);
-            observer.error();
-            observer.complete();
+            console.log("Error initializing device from storage: " + error)
+            observer.error()
+            observer.complete()
           }
-        );
-      });
-    });
+        )
+      })
+    })
   }
 
   public setDevice(device: Device) : Observable<void> {
     return Observable.create(observer => {
       this.deviceStorage.set('device', JSON.stringify(device)).then(() => {
-        this.device = device;
-        console.log("Stored device in storage. Device UUID: " + this.device.id);
-        observer.next();
-        observer.complete();
+        this.device = device
+        console.log("Stored device in storage. Device UUID: " + this.device.id)
+        observer.next()
+        observer.complete()
       }).catch(error => {
-        console.log("Error storing device: " + error);
-        observer.error(error);
-        observer.complete();
-      });
-    });
+        console.log("Error storing device: " + error)
+        observer.error(error)
+        observer.complete()
+      })
+    })
   }
 
   public setClient(client: Client) : Observable<void> {
     return Observable.create(observer => {
       this.deviceStorage.set('client', JSON.stringify(client)).then(() => {
-        this.client = client;
-        console.log("Stored client in storage. Client UUID: " + this.client.uuid);
-        observer.next();
-        observer.complete();
+        this.client = client
+        console.log("Stored client in storage. Client UUID: " + this.client.uuid)
+        observer.next()
+        observer.complete()
       }).catch(error => {
-        console.log("Error storing client: " + error);
-        observer.error(error);
-        observer.complete();
-      });
-    });
+        console.log("Error storing client: " + error)
+        observer.error(error)
+        observer.complete()
+      })
+    })
   }
 
   private getDeviceStorage() : Observable<SecureStorage> {
     return Observable.create(observer => {
-      this.deviceStorage = new SecureStorage();
+      this.deviceStorage = new SecureStorage()
       this.deviceStorage.create('device_storage').then(
         () => {
-          observer.next(this.deviceStorage);
-          observer.complete();
+          observer.next(this.deviceStorage)
+          observer.complete()
         },
         error => {
-          observer.error(error);
-          observer.complete();
+          observer.error(error)
+          observer.complete()
         }
-      );
-    });
+      )
+    })
   }
 }

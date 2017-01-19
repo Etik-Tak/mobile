@@ -23,10 +23,10 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { ScanProductPage } from '../scan-product/scan-product';
-import { SearchPage } from '../search/search';
+import { Component } from '@angular/core'
+import { NavController } from 'ionic-angular'
+import { ScanProductPage } from '../scan-product/scan-product'
+import { SearchPage } from '../search/search'
 
 @Component({
   selector: 'page-frontpage',
@@ -37,15 +37,15 @@ export class FrontpagePage {
   constructor(public navCtrl: NavController) {}
 
   ionViewDidLoad() {
-    console.log('Hello Frontpage Page');
+    console.log('Hello Frontpage Page')
   }
 
   showScanProductPage() {
-    this.navCtrl.setRoot(ScanProductPage);
+    this.navCtrl.setRoot(ScanProductPage)
   }
 
   showSearchPage() {
-    this.navCtrl.setRoot(SearchPage);
+    this.navCtrl.setRoot(SearchPage)
   }
 
 }

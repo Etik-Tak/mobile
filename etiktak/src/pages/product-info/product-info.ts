@@ -23,15 +23,15 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams, ModalController, LoadingController, TextInput } from 'ionic-angular';
-import { ClientVerificationPage } from '../client-verification/client-verification';
-import { AddCompanyToProductPage } from '../add-company-to-product/add-company-to-product';
-import { AuthHolder } from "../../providers/auth-holder";
-import { ProductService } from "../../providers/product-service";
-import { Product } from "../../model/product";
-import { Company } from "../../model/company";
-import { Util } from "../../util/util";
+import { Component, ViewChild } from '@angular/core'
+import { NavController, NavParams, ModalController, LoadingController, ToastController, TextInput } from 'ionic-angular'
+import { ClientVerificationPage } from '../client-verification/client-verification'
+import { AddCompanyToProductPage } from '../add-company-to-product/add-company-to-product'
+import { AuthHolder } from "../../providers/auth-holder"
+import { ProductService } from "../../providers/product-service"
+import { Product } from "../../model/product"
+import { Company } from "../../model/company"
+import { Util } from "../../util/util"
 
 @Component({
   selector: 'page-product-info',
@@ -39,151 +39,162 @@ import { Util } from "../../util/util";
 })
 export class ProductInfoPage {
 
-  loading = undefined;
-  product: Product = undefined;
+  loading = undefined
+  product: Product = undefined
 
-  editing = false;
-  editingProductName = false;
+  editing = false
+  editingProductName = false
 
-  @ViewChild('productNameInput') productNameInput: TextInput;
+  @ViewChild('productNameInput') productNameInput: TextInput
 
   constructor(
-    public navCtrl: NavController, private navParams: NavParams, private modalCtrl: ModalController, private loadingCtrl: LoadingController,
+    public navCtrl: NavController, private navParams: NavParams, private modalCtrl: ModalController, private loadingCtrl: LoadingController, private toastCtrl: ToastController,
     private authHolder: AuthHolder, private productService: ProductService) {
-    this.product = navParams.get('product');
+    this.product = navParams.get('product')
   }
 
   ionViewDidLoad() {
-    console.log('Hello ProductInfo Page');
+    console.log('Hello ProductInfo Page')
   }
 
   editPressed() {
-    this.editing = true;
+    this.editing = true
   }
 
   okPressed() {
-    this.saveProduct();
-    this.editing = false;
+    this.saveProduct()
+    this.editing = false
   }
 
   productName() : string {
-    return (this.product && this.product.name) ? this.product.name : "Ukendt produkt";
+    return (this.product && this.product.name) ? this.product.name : "Ukendt produkt"
   }
 
-  /*editProductName() {
-    if (!this.editing) {
-      return;
-    }
-    this.editingProductName = true;
-    setTimeout(() => {
-      this.productNameInput.setFocus();
-    }, 500);
-  }*/
-
   cancelEditingProductName() {
-    this.editingProductName = false;
+    this.editingProductName = false
   }
 
   saveProduct() {
-    if (this.productNameInput.value == "") {
-      this.cancelEditingProductName();
-      return;
+    if (this.productNameInput.value == "" || this.productNameInput.value == this.productName()) {
+      this.cancelEditingProductName()
+      return
     }
     this.verifyClient(() => {
-      this.showMessage('Gemmer produktinfo...');
+      this.showMessage('Gemmer produktinfo...')
       this.productService.editProduct(this.product, this.productNameInput.value).subscribe(
         product => {
-          this.hideMessage();
-          this.product = product;
-          this.editingProductName = false;
+          this.hideMessage()
+          this.product = product
+          this.editingProductName = false
+        },
+        error => {
+          this.hideMessage()
+          this.showToast("Kunne ikke gemme produktinfo! Prøv venligst igen...")
         }
-      );
-    });
+      )
+    })
   }
 
   canEditProductName() : boolean {
     if (this.product == null) {
-      return false;
+      return false
     }
-    return Util.canEditItemWithKeyIfVerified("name", this.product.editableItems, this.authHolder.client);
+    return Util.canEditItemWithKeyIfVerified("name", this.product.editableItems, this.authHolder.client)
   }
 
   isProductNameEdited() : boolean {
-    return this.productNameInput != null && this.productNameInput.value != "";
+    return this.productNameInput != null && this.productNameInput.value != ""
   }
 
   canEditCompany(company: Company) : boolean {
-    return Util.canEditItemWithKeyIfVerified("name", company.editableItems, this.authHolder.client);
+    return Util.canEditItemWithKeyIfVerified("name", company.editableItems, this.authHolder.client)
   }
 
   canAddCompany() : boolean {
     if (this.product == null) {
-      return false;
+      return false
     }
-    return Util.canEditItemWithKeyIfVerified("name", this.product.editableItems, this.authHolder.client);
+    return Util.canEditItemWithKeyIfVerified("name", this.product.editableItems, this.authHolder.client)
   }
 
   showAddCompanyPage() {
-    let modal = this.modalCtrl.create(AddCompanyToProductPage, {});
+    let modal = this.modalCtrl.create(AddCompanyToProductPage, {})
     modal.onDidDismiss(data => {
       if (data["success"] == true) {
-        this.addCompany(data["companyName"]);
+        this.addCompany(data["companyName"])
       }
-    });
-    modal.present();
+    })
+    modal.present()
   }
 
   addCompany(companyName: string) {
     this.verifyClient(() => {
-      this.showMessage('Tilføjer producent...');
+      this.showMessage('Tilføjer producent...')
       this.productService.addCompanyToProduct(this.product, companyName).subscribe(
         product => {
-          this.hideMessage();
-          this.product = product;
+          this.hideMessage()
+          this.product = product
+        },
+        error => {
+          this.hideMessage()
+          this.showToast("Kunne ikke tilføje producent! Prøv venligst igen...")
         }
-      );
-    });
+      )
+    })
   }
 
   removeCompany(company: Company) {
     this.verifyClient(() => {
-      this.showMessage('Fjerner producent fra produkt...');
+      this.showMessage('Fjerner producent fra produkt...')
       this.productService.removeCompanyFromProduct(this.product, company).subscribe(
         product => {
-          this.hideMessage();
-          this.product = product;
+          this.hideMessage()
+          this.product = product
+        },
+        error => {
+          this.hideMessage()
+          this.showToast("Kunne ikke fjerne producent! Prøv venligst igen...")
         }
-      );
-    });
+      )
+    })
   }
 
   private verifyClient(callback: () => void) {
     if (this.authHolder.client.verified) {
-      callback();
+      callback()
     } else {
-      let modal = this.modalCtrl.create(ClientVerificationPage, {});
+      let modal = this.modalCtrl.create(ClientVerificationPage, {})
       modal.onDidDismiss(data => {
         if (data["success"] == true) {
-          callback();
+          callback()
         }
-      });
-      modal.present();
+      })
+      modal.present()
     }
   }
 
   private showMessage(message: string) {
-    this.hideMessage();
+    this.hideMessage()
     this.loading = this.loadingCtrl.create({
       content: message
-    });
-    this.loading.present();
+    })
+    this.loading.present()
   }
 
   private hideMessage() {
     if (this.loading != null) {
-      this.loading.dismiss();
-      this.loading = null;
+      this.loading.dismiss()
+      this.loading = null
     }
+  }
+
+  private showToast(message: string) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 3000,
+      position: 'middle'
+    })
+    toast.present()
   }
 
 }

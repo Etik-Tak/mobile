@@ -23,10 +23,10 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import { Component } from '@angular/core';
-import { NavController, ViewController } from 'ionic-angular';
-import { CompanyService } from "../../providers/company-service";
-import { Company } from "../../model/company";
+import { Component } from '@angular/core'
+import { NavController, ViewController } from 'ionic-angular'
+import { CompanyService } from "../../providers/company-service"
+import { Company } from "../../model/company"
 
 @Component({
   selector: 'page-add-company-to-product',
@@ -40,33 +40,33 @@ export class AddCompanyToProductPage {
   searchString = ""
 
   ionViewDidLoad() {
-    console.log('Hello AddCompanyToProduct Page');
+    console.log('Hello AddCompanyToProduct Page')
   }
 
   search(searchEvent) {
 
       // Set val to the value of the searchbar
-      this.searchString = searchEvent.target.value;
+      this.searchString = searchEvent.target.value
 
       if (this.searchString.trim() !== '' && this.searchString.trim().length >= 3) {
         this.companyService.searchCompanies(this.searchString).subscribe(companies => {
-          this.companies = companies;
-        });
+          this.companies = companies
+        })
       } else {
-        this.companies = [];
+        this.companies = []
       }
     }
 
     cancel() {
-      this.viewController.dismiss({success: false});
+      this.viewController.dismiss({success: false})
     }
 
     okPressed() {
-      this.close(this.searchString);
+      this.close(this.searchString)
     }
 
     close(companyName: string) {
-      this.viewController.dismiss({success: true, companyName: companyName});
+      this.viewController.dismiss({success: true, companyName: companyName})
     }
 
 }

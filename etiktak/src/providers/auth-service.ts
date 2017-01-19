@@ -23,16 +23,16 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Http } from '@angular/http';
-import { AuthHolder } from './auth-holder';
-import { Device } from '../model/device';
-import { Client } from '../model/client';
-import { SmsVerification } from '../model/sms-verification';
-import { Constants } from '../util/constants';
-import { AuthorizedHttp } from '../util/authorized-http';
-import 'rxjs/add/operator/map';
+import { Injectable } from '@angular/core'
+import { Observable } from 'rxjs/Observable'
+import { Http } from '@angular/http'
+import { AuthHolder } from './auth-holder'
+import { Device } from '../model/device'
+import { Client } from '../model/client'
+import { SmsVerification } from '../model/sms-verification'
+import { Constants } from '../util/constants'
+import { AuthorizedHttp } from '../util/authorized-http'
+import 'rxjs/add/operator/map'
 
 @Injectable()
 export class AuthService {
@@ -41,66 +41,66 @@ export class AuthService {
 
   public createDevice() : Observable<void> {
     return Observable.create(observer => {
-      console.log("Registering device...");
+      console.log("Registering device...")
       this.http.post(`${Constants.apiUrl}/client/create/`, {}).subscribe(
         result => {
-          let json = result.json();
-          let device = <Device>json['device'];
-          let client = <Client>json['client'];
+          let json = result.json()
+          let device = <Device>json['device']
+          let client = <Client>json['client']
 
           this.authHolder.setDevice(device).subscribe(() => {
             this.authHolder.setClient(client).subscribe(() => {
-              observer.next();
-              observer.complete();
-            });
-          });
+              observer.next()
+              observer.complete()
+            })
+          })
         },
         error => {
-          console.log("Error creating device: " + error);
-          observer.error(error);
-          observer.complete();
+          console.log("Error creating device: " + error)
+          observer.error(error)
+          observer.complete()
         }
-      );
-    });
+      )
+    })
   }
 
   public requestVerification(mobileNumber: string) : Observable<SmsVerification> {
     return Observable.create(observer => {
-      console.log("Requesting verification: " + mobileNumber);
+      console.log("Requesting verification: " + mobileNumber)
       this.authorizedHttp.post(`${Constants.apiUrl}/verification/request/`, {'mobileNumber': mobileNumber}, {}).subscribe(
         result => {
-          let json = result.json();
-          let smsVerification = <SmsVerification>json['smsVerification'];
-          observer.next(smsVerification);
-          observer.complete();
+          let json = result.json()
+          let smsVerification = <SmsVerification>json['smsVerification']
+          observer.next(smsVerification)
+          observer.complete()
         },
         error => {
-          console.log("Error requesting SMS verification: " + error);
-          observer.error(error);
-          observer.complete();
+          console.log("Error requesting SMS verification: " + error)
+          observer.error(error)
+          observer.complete()
         }
-      );
-    });
+      )
+    })
   }
 
   public verifyVerification(mobileNumber: string, smsChallenge: string, clientChallenge: string) : Observable<void> {
     return Observable.create(observer => {
       this.authorizedHttp.post(`${Constants.apiUrl}/verification/verify/`, {'mobileNumber': mobileNumber, 'smsChallenge': smsChallenge, 'clientChallenge': clientChallenge}, {}).subscribe(
         result => {
-          let json = result.json();
-          let client = <Client>json['client'];
+          let json = result.json()
+          let client = <Client>json['client']
           this.authHolder.setClient(client).subscribe(() => {
-            observer.next();
-            observer.complete();
-          });
+            observer.next()
+            observer.complete()
+          })
         },
         error => {
-          console.log("Error verifying SMS verification: " + error);
-          observer.error(error);
-          observer.complete();
+          console.log("Error verifying SMS verification: " + error)
+          observer.error(error)
+          observer.complete()
         }
-      );
-    });
+      )
+    })
   }
 
 }

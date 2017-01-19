@@ -23,11 +23,11 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Http, Response, Headers } from '@angular/http';
-import { AuthHolder } from "../providers/auth-holder";
-import { Util } from "./util";
+import { Injectable } from '@angular/core'
+import { Observable } from 'rxjs/Observable'
+import { Http, Response, Headers } from '@angular/http'
+import { AuthHolder } from "../providers/auth-holder"
+import { Util } from "./util"
 
 @Injectable()
 export class AuthorizedHttp {
@@ -36,22 +36,22 @@ export class AuthorizedHttp {
 
   private createAuthorizationHeader() : Headers {
     let headers = new Headers()
-    headers.append('X-Auth-DeviceId', this.authHolder.device.id);
-    return headers;
+    headers.append('X-Auth-DeviceId', this.authHolder.device.id)
+    return headers
   }
 
   public get(url: string, params: {[index: string]: any}) : Observable<Response> {
-    console.log("GET: " + Util.buildUrl(url, params));
+    console.log("GET: " + Util.buildUrl(url, params))
     return this.http.get(Util.buildUrl(url, params), {
       headers: this.createAuthorizationHeader()
-    });
+    })
   }
 
   public post(url: string, params: {[index: string]: any}, data) : Observable<Response> {
-    console.log("POST: " + Util.buildUrl(url, params));
+    console.log("POST: " + Util.buildUrl(url, params))
     return this.http.post(Util.buildUrl(url, params), data, {
       headers: this.createAuthorizationHeader()
-    });
+    })
   }
 
 }

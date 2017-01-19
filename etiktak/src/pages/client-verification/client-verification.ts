@@ -23,9 +23,9 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import { Component, ViewChild } from '@angular/core';
-import { NavController, ViewController, LoadingController, TextInput } from 'ionic-angular';
-import { AuthService } from '../../providers/auth-service';
+import { Component, ViewChild } from '@angular/core'
+import { NavController, ViewController, LoadingController, TextInput } from 'ionic-angular'
+import { AuthService } from '../../providers/auth-service'
 
 @Component({
   selector: 'page-client-verification',
@@ -33,63 +33,63 @@ import { AuthService } from '../../providers/auth-service';
 })
 export class ClientVerificationPage {
 
-  loading = null;
-  smsVerification = null;
+  loading = null
+  smsVerification = null
 
-  @ViewChild('mobileNumberInput') mobileNumberInput: TextInput;
-  @ViewChild('smsCodeInput') smsCodeInput: TextInput;
+  @ViewChild('mobileNumberInput') mobileNumberInput: TextInput
+  @ViewChild('smsCodeInput') smsCodeInput: TextInput
 
   constructor(public navCtrl: NavController, public viewController: ViewController, private loadingCtrl: LoadingController, private authService: AuthService) {}
 
   ionViewDidLoad() {
-    console.log('Hello ClientVerification Page');
+    console.log('Hello ClientVerification Page')
   }
 
   requestSmsVerification() {
-    this.showMessage('Sender SMS...');
+    this.showMessage('Sender SMS...')
 
     this.authService.requestVerification(this.mobileNumberInput.value).subscribe(
       smsVerification => {
-        this.smsVerification = smsVerification;
-        this.hideMessage();
+        this.smsVerification = smsVerification
+        this.hideMessage()
       },
       error => {
-        this.hideMessage();
+        this.hideMessage()
       }
-    );
+    )
   }
 
   verifySmsVerification() {
-    this.showMessage('Verificerer SMS...');
+    this.showMessage('Verificerer SMS...')
 
     this.authService.verifyVerification(this.mobileNumberInput.value, this.smsCodeInput.value, this.smsVerification.challenge).subscribe(
       () => {
-        this.hideMessage();
-        this.close(true);
+        this.hideMessage()
+        this.close(true)
       },
       error => {
-        this.hideMessage();
-        this.close(false);
+        this.hideMessage()
+        this.close(false)
       }
-    );
+    )
   }
 
   close(success: boolean) {
-    this.viewController.dismiss({success: success});
+    this.viewController.dismiss({success: success})
   }
 
   private showMessage(message: string) {
-    this.hideMessage();
+    this.hideMessage()
     this.loading = this.loadingCtrl.create({
       content: message
-    });
-    this.loading.present();
+    })
+    this.loading.present()
   }
 
   private hideMessage() {
     if (this.loading != null) {
-      this.loading.dismiss();
-      this.loading = null;
+      this.loading.dismiss()
+      this.loading = null
     }
   }
 

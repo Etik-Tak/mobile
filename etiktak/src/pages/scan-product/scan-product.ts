@@ -23,12 +23,12 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import { Component } from '@angular/core';
-import { Http } from '@angular/http';
-import { NavController } from 'ionic-angular';
-import { BarcodeScanner } from 'ionic-native';
-import { ProductService } from '../../providers/product-service';
-import { ProductInfoPage } from '../product-info/product-info';
+import { Component } from '@angular/core'
+import { Http } from '@angular/http'
+import { NavController } from 'ionic-angular'
+import { BarcodeScanner } from 'ionic-native'
+import { ProductService } from '../../providers/product-service'
+import { ProductInfoPage } from '../product-info/product-info'
 
 @Component({
   selector: 'page-scan-product',
@@ -39,22 +39,22 @@ export class ScanProductPage {
   constructor(public http: Http, public navCtrl: NavController, public productService: ProductService) {}
 
   ionViewDidLoad() {
-    console.log('Hello ScanProduct Page');
+    console.log('Hello ScanProduct Page')
 
     BarcodeScanner.scan().then(barcodeData => {
-      console.log("Barcode: " + barcodeData.format + ": " + barcodeData.text);
+      console.log("Barcode: " + barcodeData.format + ": " + barcodeData.text)
 
       if (barcodeData.cancelled) {
       } else {
         this.productService.scanProduct(barcodeData.text, barcodeData.format).subscribe(
           product => {
-            this.navCtrl.setRoot(ProductInfoPage, {product});
+            this.navCtrl.setRoot(ProductInfoPage, {product})
           }
-        );
+        )
       }
     }, err => {
-      console.log("Error while scanning barcode: (" + err.code + "): " + err.message);
-    });
+      console.log("Error while scanning barcode: (" + err.code + "): " + err.message)
+    })
   }
 
 }

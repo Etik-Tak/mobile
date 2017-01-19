@@ -23,8 +23,8 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Component } from '@angular/core'
+import { NavController } from 'ionic-angular'
 
 @Component({
   selector: 'page-search',
@@ -35,7 +35,7 @@ export class SearchPage {
   constructor(public navCtrl: NavController) {}
 
   ionViewDidLoad() {
-    console.log('Hello Search Page');
+    console.log('Hello Search Page')
   }
 
 }

@@ -23,13 +23,13 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { AuthorizedHttp } from '../util/authorized-http';
-import { Constants } from '../util/constants';
-import { Product } from '../model/product';
-import { Company } from '../model/company';
-import 'rxjs/add/operator/map';
+import { Injectable } from '@angular/core'
+import { Observable } from 'rxjs/Observable'
+import { AuthorizedHttp } from '../util/authorized-http'
+import { Constants } from '../util/constants'
+import { Product } from '../model/product'
+import { Company } from '../model/company'
+import 'rxjs/add/operator/map'
 
 @Injectable()
 export class ProductService {
@@ -40,76 +40,76 @@ export class ProductService {
     return Observable.create(observer => {
       this.http.post(`${Constants.apiUrl}/product/scan/`, {'barcode': barcode, 'barcodeType': barcodeType}, {}).subscribe(
         result => {
-          console.log("Result from server: " + result);
-          let json = result.json();
-          let product = <Product>json["scan"]["product"];
-          observer.next(product);
-          observer.complete();
+          console.log("Result from server: " + result)
+          let json = result.json()
+          let product = <Product>json["scan"]["product"]
+          observer.next(product)
+          observer.complete()
         },
         error => {
-          console.log("Error: " + error);
-          observer.error(error);
-          observer.complete();
+          console.log("Error: " + error)
+          observer.error(error)
+          observer.complete()
         }
       )
-    });
+    })
   }
 
   public editProduct(product: Product, name: string) : Observable<Product> {
     return Observable.create(observer => {
       this.http.post(`${Constants.apiUrl}/product/edit/`, {'productUuid': product.uuid, 'name': name}, {}).subscribe(
         result => {
-          console.log("Result from server: " + result);
-          let json = result.json();
-          let product = <Product>json["product"];
-          observer.next(product);
-          observer.complete();
+          console.log("Result from server: " + result)
+          let json = result.json()
+          let product = <Product>json["product"]
+          observer.next(product)
+          observer.complete()
         },
         error => {
-          console.log("Error: " + error);
-          observer.error(error);
-          observer.complete();
+          console.log("Error: " + error)
+          observer.error(error)
+          observer.complete()
         }
       )
-    });
+    })
   }
 
   public addCompanyToProduct(product: Product, companyName: string) : Observable<Product> {
     return Observable.create(observer => {
       this.http.post(`${Constants.apiUrl}/product/assign/company/`, {'productUuid': product.uuid, 'companyName': companyName}, {}).subscribe(
         result => {
-          console.log("Result from server: " + result);
-          let json = result.json();
-          let product = <Product>json["product"];
-          observer.next(product);
-          observer.complete();
+          console.log("Result from server: " + result)
+          let json = result.json()
+          let product = <Product>json["product"]
+          observer.next(product)
+          observer.complete()
         },
         error => {
-          console.log("Error: " + error);
-          observer.error(error);
-          observer.complete();
+          console.log("Error: " + error)
+          observer.error(error)
+          observer.complete()
         }
       )
-    });
+    })
   }
 
   public removeCompanyFromProduct(product: Product, company: Company) : Observable<Product> {
     return Observable.create(observer => {
       this.http.post(`${Constants.apiUrl}/product/remove/company/`, {'productUuid': product.uuid, 'companyUuid': company.uuid}, {}).subscribe(
         result => {
-          console.log("Result from server: " + result);
-          let json = result.json();
-          let product = <Product>json["product"];
-          observer.next(product);
-          observer.complete();
+          console.log("Result from server: " + result)
+          let json = result.json()
+          let product = <Product>json["product"]
+          observer.next(product)
+          observer.complete()
         },
         error => {
-          console.log("Error: " + error);
-          observer.error(error);
-          observer.complete();
+          console.log("Error: " + error)
+          observer.error(error)
+          observer.complete()
         }
       )
-    });
+    })
   }
 
 }

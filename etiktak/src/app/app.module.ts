@@ -23,22 +23,22 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import { NgModule } from '@angular/core';
-import { IonicApp, IonicModule } from 'ionic-angular';
-import { MyApp } from './app.component';
+import { NgModule } from '@angular/core'
+import { IonicApp, IonicModule } from 'ionic-angular'
+import { MyApp } from './app.component'
 
-import { AuthHolder } from '../providers/auth-holder';
-import { AuthService } from '../providers/auth-service';
-import { ProductService } from '../providers/product-service';
-import { CompanyService } from "../providers/company-service";
-import { AuthorizedHttp } from "../util/authorized-http";
-import { ClientVerificationPage } from '../pages/client-verification/client-verification';
-import { StartupPage } from '../pages/startup/startup';
-import { FrontpagePage } from '../pages/frontpage/frontpage';
-import { ScanProductPage } from '../pages/scan-product/scan-product';
-import { SearchPage } from '../pages/search/search';
-import { ProductInfoPage } from '../pages/product-info/product-info';
-import { AddCompanyToProductPage } from '../pages/add-company-to-product/add-company-to-product';
+import { AuthHolder } from '../providers/auth-holder'
+import { AuthService } from '../providers/auth-service'
+import { ProductService } from '../providers/product-service'
+import { CompanyService } from "../providers/company-service"
+import { AuthorizedHttp } from "../util/authorized-http"
+import { ClientVerificationPage } from '../pages/client-verification/client-verification'
+import { StartupPage } from '../pages/startup/startup'
+import { FrontpagePage } from '../pages/frontpage/frontpage'
+import { ScanProductPage } from '../pages/scan-product/scan-product'
+import { SearchPage } from '../pages/search/search'
+import { ProductInfoPage } from '../pages/product-info/product-info'
+import { AddCompanyToProductPage } from '../pages/add-company-to-product/add-company-to-product'
 
 @NgModule({
   declarations: [

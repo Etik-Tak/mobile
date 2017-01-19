@@ -23,12 +23,12 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { AuthorizedHttp } from '../util/authorized-http';
-import { Constants } from '../util/constants';
-import { Company } from '../model/company';
-import 'rxjs/add/operator/map';
+import { Injectable } from '@angular/core'
+import { Observable } from 'rxjs/Observable'
+import { AuthorizedHttp } from '../util/authorized-http'
+import { Constants } from '../util/constants'
+import { Company } from '../model/company'
+import 'rxjs/add/operator/map'
 
 @Injectable()
 export class CompanyService {
@@ -39,19 +39,19 @@ export class CompanyService {
     return Observable.create(observer => {
       this.http.get(`${Constants.apiUrl}/company/search/`, {'searchString': searchString}).subscribe(
         result => {
-          console.log("Result from server: " + result);
-          let json = result.json();
-          let companies = <Company[]>json["companies"];
-          observer.next(companies);
-          observer.complete();
+          console.log("Result from server: " + result)
+          let json = result.json()
+          let companies = <Company[]>json["companies"]
+          observer.next(companies)
+          observer.complete()
         },
         error => {
-          console.log("Error: " + error);
-          observer.error(error);
-          observer.complete();
+          console.log("Error: " + error)
+          observer.error(error)
+          observer.complete()
         }
       )
-    });
+    })
   }
 
 }

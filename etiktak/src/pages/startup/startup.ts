@@ -23,12 +23,12 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import { Component } from '@angular/core';
-import { Platform, NavController, LoadingController } from 'ionic-angular';
-import { AuthHolder } from '../../providers/auth-holder';
-import { AuthService } from '../../providers/auth-service';
-import { FrontpagePage } from '../frontpage/frontpage';
-import { Util } from '../../util/util';
+import { Component } from '@angular/core'
+import { Platform, NavController, LoadingController } from 'ionic-angular'
+import { AuthHolder } from '../../providers/auth-holder'
+import { AuthService } from '../../providers/auth-service'
+import { FrontpagePage } from '../frontpage/frontpage'
+import { Util } from '../../util/util'
 
 @Component({
   selector: 'page-startup',
@@ -36,13 +36,13 @@ import { Util } from '../../util/util';
 })
 export class StartupPage {
 
-  welcomeStartTime = null;
-  loading = null;
+  welcomeStartTime = null
+  loading = null
 
   constructor(public platform: Platform, public navCtrl: NavController, private loadingCtrl: LoadingController, private authHolder: AuthHolder, private authService: AuthService) {}
 
   ionViewDidLoad() {
-    console.log('Hello Startup Page');
+    console.log('Hello Startup Page')
 
     this.platform.ready().then(() => {
 
@@ -50,44 +50,44 @@ export class StartupPage {
       this.authHolder.initialize().subscribe(
         () => {
           // Redirect to front page if device already exists
-          this.showFrontPage();
+          this.showFrontPage()
         },
         error => {
           // Create new device
-          this.createDevice();
+          this.createDevice()
         }
-      );
-    });
+      )
+    })
   }
 
   private createDevice() {
-    this.showWelcome();
+    this.showWelcome()
 
     this.authService.createDevice().subscribe(() => {
-      console.log("Created device with ID: " + this.authHolder.device.id);
-      this.showFrontPage();
-    });
+      console.log("Created device with ID: " + this.authHolder.device.id)
+      this.showFrontPage()
+    })
   }
 
   private showFrontPage() {
     if (this.loading != null) {
-      let maxWaitTime = 3.0;
+      let maxWaitTime = 3.0
       setTimeout(() => {
-        this.loading.dismiss();
-        this.loading = null;
-        this.navCtrl.setRoot(FrontpagePage);
-      }, Math.max(0, maxWaitTime - (Util.currentTime() - this.welcomeStartTime)) * 1000.0);
+        this.loading.dismiss()
+        this.loading = null
+        this.navCtrl.setRoot(FrontpagePage)
+      }, Math.max(0, maxWaitTime - (Util.currentTime() - this.welcomeStartTime)) * 1000.0)
     } else {
-      this.navCtrl.setRoot(FrontpagePage);
+      this.navCtrl.setRoot(FrontpagePage)
     }
   }
 
   private showWelcome() {
-    this.welcomeStartTime = Util.currentTime();
+    this.welcomeStartTime = Util.currentTime()
 
     this.loading = this.loadingCtrl.create({
       content: 'Velkommen til Etik-Tak...'
-    });
-    this.loading.present();
+    })
+    this.loading.present()
   }
 }

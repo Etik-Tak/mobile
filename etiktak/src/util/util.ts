@@ -23,32 +23,32 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import { EditableItem } from "../model/editable-item";
-import { Client } from "../model/client";
+import { EditableItem } from "../model/editable-item"
+import { Client } from "../model/client"
 
 export class Util {
     static currentTime() {
-      return new Date().getTime() / 1000.0;
+      return new Date().getTime() / 1000.0
     }
 
     static buildUrl(url: string, params: {[index: string]: any}) : string {
-      var completeUrl: string = url;
-      var delimiter = "?";
+      var completeUrl: string = url
+      var delimiter = "?"
       for (var key in params) {
-        completeUrl += delimiter;
-        completeUrl += key + "=" + encodeURIComponent(params[key]);
-        delimiter = "&";
+        completeUrl += delimiter
+        completeUrl += key + "=" + encodeURIComponent(params[key])
+        delimiter = "&"
       }
-      return completeUrl;
+      return completeUrl
     }
 
     static getArrayItemWithKey(array: any[], key: string, value: string) : any {
       for (let item of array) {
         if (item["key"] == value) {
-          return item;
+          return item
         }
       }
-      return null;
+      return null
     }
 
     static canEditItemWithKey(itemKey: string, editableItems: EditableItem[]) : boolean {
@@ -56,7 +56,7 @@ export class Util {
     }
 
     static canEditItem(editableItem: EditableItem) : boolean {
-      return editableItem.editable;
+      return editableItem.editable
     }
 
     static canEditItemWithKeyIfVerified(itemKey: string, editableItems: EditableItem[], client: Client) : boolean {
@@ -64,7 +64,7 @@ export class Util {
     }
 
     static canEditItemIfVerified(editableItem: EditableItem, client: Client) : boolean {
-      return client.trustLevel >= editableItem.trustScore;
+      return client.trustLevel >= editableItem.trustScore
     }
 
 }
