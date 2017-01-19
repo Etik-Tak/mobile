@@ -30,6 +30,7 @@ import { AddCompanyToProductPage } from '../add-company-to-product/add-company-t
 import { AuthHolder } from "../../providers/auth-holder";
 import { ProductService } from "../../providers/product-service";
 import { Product } from "../../model/product";
+import { Company } from "../../model/company";
 import { Util } from "../../util/util";
 
 @Component({
@@ -40,6 +41,8 @@ export class ProductInfoPage {
 
   loading = undefined;
   product: Product = undefined;
+
+  editing = false;
   editingProductName = false;
 
   @ViewChild('productNameInput') productNameInput: TextInput;
@@ -54,16 +57,28 @@ export class ProductInfoPage {
     console.log('Hello ProductInfo Page');
   }
 
+  editPressed() {
+    this.editing = true;
+  }
+
+  okPressed() {
+    this.saveProduct();
+    this.editing = false;
+  }
+
   productName() : string {
     return (this.product && this.product.name) ? this.product.name : "Ukendt produkt";
   }
 
-  editProductName() {
+  /*editProductName() {
+    if (!this.editing) {
+      return;
+    }
     this.editingProductName = true;
     setTimeout(() => {
       this.productNameInput.setFocus();
     }, 500);
-  }
+  }*/
 
   cancelEditingProductName() {
     this.editingProductName = false;
@@ -97,8 +112,15 @@ export class ProductInfoPage {
     return this.productNameInput != null && this.productNameInput.value != "";
   }
 
-  isEditingProductName() : boolean {
-    return this.editingProductName;
+  canEditCompany(company: Company) : boolean {
+    return Util.canEditItemWithKeyIfVerified("name", company.editableItems, this.authHolder.client);
+  }
+
+  canAddCompany() : boolean {
+    if (this.product == null) {
+      return false;
+    }
+    return Util.canEditItemWithKeyIfVerified("name", this.product.editableItems, this.authHolder.client);
   }
 
   showAddCompanyPage() {
@@ -114,12 +136,24 @@ export class ProductInfoPage {
   addCompany(companyName: string) {
     this.verifyClient(() => {
       this.showMessage('Tilføjer producent...');
-      /*this.productService.editProduct(this.product, this.productNameInput.value).subscribe(
+      this.productService.addCompanyToProduct(this.product, companyName).subscribe(
         product => {
           this.hideMessage();
           this.product = product;
         }
-      );*/
+      );
+    });
+  }
+
+  removeCompany(company: Company) {
+    this.verifyClient(() => {
+      this.showMessage('Fjerner producent fra produkt...');
+      this.productService.removeCompanyFromProduct(this.product, company).subscribe(
+        product => {
+          this.hideMessage();
+          this.product = product;
+        }
+      );
     });
   }
 

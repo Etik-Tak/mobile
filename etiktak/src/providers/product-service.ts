@@ -28,6 +28,7 @@ import { Observable } from 'rxjs/Observable';
 import { AuthorizedHttp } from '../util/authorized-http';
 import { Constants } from '../util/constants';
 import { Product } from '../model/product';
+import { Company } from '../model/company';
 import 'rxjs/add/operator/map';
 
 @Injectable()
@@ -56,7 +57,45 @@ export class ProductService {
 
   public editProduct(product: Product, name: string) : Observable<Product> {
     return Observable.create(observer => {
-      this.http.post(`${Constants.apiUrl}/product/edit/`, {'productUuid': product.uuid,'name': name}, {}).subscribe(
+      this.http.post(`${Constants.apiUrl}/product/edit/`, {'productUuid': product.uuid, 'name': name}, {}).subscribe(
+        result => {
+          console.log("Result from server: " + result);
+          let json = result.json();
+          let product = <Product>json["product"];
+          observer.next(product);
+          observer.complete();
+        },
+        error => {
+          console.log("Error: " + error);
+          observer.error(error);
+          observer.complete();
+        }
+      )
+    });
+  }
+
+  public addCompanyToProduct(product: Product, companyName: string) : Observable<Product> {
+    return Observable.create(observer => {
+      this.http.post(`${Constants.apiUrl}/product/assign/company/`, {'productUuid': product.uuid, 'companyName': companyName}, {}).subscribe(
+        result => {
+          console.log("Result from server: " + result);
+          let json = result.json();
+          let product = <Product>json["product"];
+          observer.next(product);
+          observer.complete();
+        },
+        error => {
+          console.log("Error: " + error);
+          observer.error(error);
+          observer.complete();
+        }
+      )
+    });
+  }
+
+  public removeCompanyFromProduct(product: Product, company: Company) : Observable<Product> {
+    return Observable.create(observer => {
+      this.http.post(`${Constants.apiUrl}/product/remove/company/`, {'productUuid': product.uuid, 'companyUuid': company.uuid}, {}).subscribe(
         result => {
           console.log("Result from server: " + result);
           let json = result.json();

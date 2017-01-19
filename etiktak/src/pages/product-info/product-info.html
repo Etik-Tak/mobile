@@ -5,94 +5,90 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Info om vare</ion-title>
+    <ion-buttons end>
+      <button (click)="editPressed()" [hidden]="editing">
+        Redigér
+      </button>
+      <button (click)="okPressed()" [hidden]="!editing">
+        OK
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
 
   <!-- Product -->
   <ion-card>
-    <ion-card-content>
 
-      <ion-card-title>
-        Produkt
-      </ion-card-title>
+    <ion-card-header>
+      Produkt
+    </ion-card-header>
 
-      <ion-item *ngIf="!isEditingProductName()">
-        <div>{{productName()}}</div>
+    <ion-list>
+
+      <!-- Product name -->
+      <ion-item>
+
+        <!-- Not editing name -->
+        <h2 [hidden]="editing">{{productName()}}</h2>
+
+        <!-- Editing name -->
+        <ion-input type="text" *ngIf="editing" [value]="productName()" #productNameInput></ion-input>
+
+        <!-- Voting buttons -->
+        <button ion-button icon-only clear small item-right [hidden]="editing">
+          <ion-icon name="thumbs-up"></ion-icon>
+        </button>
+        <button ion-button icon-only clear small item-right [hidden]="editing">
+          <ion-icon name="thumbs-down"></ion-icon>
+        </button>
+
       </ion-item>
-
-      <ion-item *ngIf="isEditingProductName()">
-        <ion-input type="text" [placeholder]="productName()" #productNameInput></ion-input>
-      </ion-item>
-
-    </ion-card-content>
-
-    <ion-row no-padding *ngIf="!isEditingProductName()">
-      <ion-col text-left width-25>
-        <button ion-button clear small>
-          <div>
-            <ion-icon name="thumbs-up"></ion-icon>
-            <br />
-            <label>Korrekt</label>
-          </div>
-        </button>
-      </ion-col>
-      <ion-col text-center width-25>
-        <button ion-button clear small>
-          <div>
-            <ion-icon name="thumbs-down"></ion-icon>
-            <br />
-            <label>Ikke korrekt</label>
-          </div>
-        </button>
-      </ion-col>
-      <ion-col text-right width-50 *ngIf="canEditProductName()">
-        <button ion-button clear small (click)="editProductName()">
-          <div>
-            <ion-icon name="create"></ion-icon>
-            <br />
-            <label>Redigér</label>
-          </div>
-        </button>
-      </ion-col>
-    </ion-row>
-    <ion-row no-padding *ngIf="isEditingProductName()">
-      <ion-col text-left offset-50 width-25>
-        <button ion-button clear small (click)="cancelEditingProductName()">
-          Annuller
-        </button>
-      </ion-col>
-      <ion-col text-right width-25>
-        <button ion-button clear small (click)="saveProduct()">
-          Gem
-        </button>
-      </ion-col>
-    </ion-row>
+    </ion-list>
 
   </ion-card>
 
   <!-- Companies -->
   <ion-card>
+
     <ion-card-header>
       Producent
     </ion-card-header>
-    <ion-card-content>
 
-      <ion-list *ngFor="let company of product?.companies">
+    <ion-list *ngFor="let company of product?.companies">
 
-        <ion-item>
-          <ion-label floating>{{company.name}}</ion-label>
-          <ion-input type="text"></ion-input>
-        </ion-item>
+      <!-- Company -->
+      <ion-item>
 
-      </ion-list>
+        <!-- Company name -->
+        <h2>{{company.name}}</h2>
 
-      <button (click)="showAddCompanyPage()">Tilføj producent</button>
+        <!-- Voting buttons -->
+        <button ion-button icon-only clear small item-right [hidden]="editing">
+          <ion-icon name="thumbs-up"></ion-icon>
+        </button>
+        <button ion-button icon-only clear small item-right [hidden]="editing">
+          <ion-icon name="thumbs-down"></ion-icon>
+        </button>
 
-    </ion-card-content>
+        <!-- Delete button -->
+        <button ion-button icon-only item-right clear (click)="removeCompany(company)" [hidden]="!editing || !canEditCompany(company)">
+          <ion-icon name="remove-circle"></ion-icon>
+        </button>
+      </ion-item>
+
+    </ion-list>
+
+    <!-- Add company -->
+    <ion-item [hidden]="!editing || !canAddCompany()">
+      <button ion-button clear (click)="showAddCompanyPage()">
+        Tilføj producent
+      </button>
+    </ion-item>
+
   </ion-card>
 
 </ion-content>
